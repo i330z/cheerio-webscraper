@@ -1,9 +1,11 @@
 const express = require('express')
 const cheerio = require('cheerio')
+var cors = require('cors')
 const axios = require('axios')
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 function downloadPinVid(videoSrc) {
     return new Promise(async (resolve, reject) => {
