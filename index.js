@@ -5,39 +5,24 @@ const axios = require('axios')
 
 const app = express()
 
-const url = "https://www.assamcareer.com/"
+const url = "https://in.pinterest.com/pin/994591898941709405/"
 
 const links = [];
 
 axios(url)
-    .then(res =>{
+    .then(res => {
         const html = res.data;
-       
+
+
         const $ = cheerio.load(html);
-        
-        $('.post-outer').each(function () {
-            const headline = $(this).find('.post-title a').text();
-            const postUrl = $(this).find('.post-body a').attr('href');
-            links.push({
-                headline, postUrl
-            })
-            console.log(links)
-        })
+        let url = $('video').attr('src');
 
-        links.forEach((e)=>{
-            axios(e.postUrl)
-                .then(res =>{
-                    const pageData = res.data;
-                    // console.log(pageData)
-                    const $ = cheerio.load(pageData)
-                    $('.post-outer', pageData).each(function(){
-                        const articleBody = $(this).find('#PostBody').text();
-                        console.log(articleBody)
-                    })
 
-                })
-        })
+        url = url.replace("/hls/", "/720p/").replace(".m3u8", ".mp4");;
 
-    }).catch(err=> console.log(err))
+        console.log(url)
+
+
+    }).catch(err => console.log(err))
 
 app.listen(3000)
